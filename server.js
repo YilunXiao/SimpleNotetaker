@@ -13,10 +13,11 @@ app.use(express.json());
 app.use(express.static('public'))
 
 // List of notes
-const notes = [
+let notes = [
   {
     title: 'yoda',
     text: 'he was green',
+    id: 1,
   },
 ];
 
@@ -42,9 +43,41 @@ app.post('/api/notes', (req, res) => {
   // newNotes.routeName = newNotes.name.replace(/\s+/g, '').toLowerCase();
   console.log(newNotes);
 
+  newNotes.id = Date.now();
   notes.push(newNotes);
   res.json(newNotes);
 });
+
+// Delete Notes
+app.delete('/api/notes/:id', (req, res) => {
+    // req.body hosts is equal to the JSON post sent from the user
+    // This works because of our body parsing middleware
+    const delNote = req.body;
+
+    const noteID = parseInt(req.params.id);
+  
+    // Using a RegEx Pattern to remove spaces from newNotes
+    // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
+    // newNotes.routeName = newNotes.name.replace(/\s+/g, '').toLowerCase();
+    console.log(noteID);
+  
+    console.log('Notes before');
+    notes.forEach(not => console.log(not));
+
+    if (notes.length){
+        for (let i = 0; i < notes.length; i++) {
+            if (notes[i].id === noteID) {
+                notes.splice(i, 1);
+            }
+        }
+    }
+
+    console.log('Notes after');
+    notes.forEach(not => console.log(not));
+
+    
+    res.json(delNote);
+  });
 
 // Starts the server to begin listening
 
