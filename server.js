@@ -15,8 +15,8 @@ app.use(express.static('public'))
 // List of notes
 let notes = [
   {
-    title: 'yoda',
-    text: 'he was green',
+    title: 'Example',
+    text: 'The most important step a man can take is the first one.',
     id: 1,
   },
 ];
@@ -30,6 +30,9 @@ app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, '/public/notes
 
 // Displays all notes on file
 app.get('/api/notes', (req, res) => res.json(notes));
+
+// Default route
+app.get('/*', (req, res) => res.sendFile(path.join(__dirname, '/public/index.html')));
 
 
 // Create New Notes - takes in JSON input
